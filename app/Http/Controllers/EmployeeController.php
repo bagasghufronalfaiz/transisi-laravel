@@ -65,8 +65,12 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::findOrFail($id);
-        return view('employee.show', compact('employee'));
+        try {
+            $employee = Employee::findOrFail($id);
+            return view('employee.show', compact('employee'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -77,9 +81,13 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        $companies = Company::all();
-        $employee = Employee::findOrFail($id);
-        return view('employee.edit', compact('employee', 'companies'));
+        try {
+            $employee = Employee::findOrFail($id);
+            $companies = Company::all();
+            return view('employee.edit', compact('employee', 'companies'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -117,10 +125,13 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        // delete kasih try cactc
-        $employee = Employee::findOrFail($id);
-        $employee->delete();
+        try {
+            $employee = Employee::findOrFail($id);
+            $employee->delete();
 
-        return redirect()->route('employee.index');
+            return redirect()->route('employee.index');
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 }

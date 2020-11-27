@@ -66,8 +66,7 @@ class CompanyController extends Controller
         try {
             $company = Company::findOrFail($id);
             return view('company.show', compact('company'));
-        }
-        catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             abort(404);
         }
     }
