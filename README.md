@@ -1,14 +1,10 @@
 yang harus dilakukan
 
 1. buat database sesuaikan dengan konfigurasi yang ada di konfigurasi .env . Untuk nama databasebta namanya : 'transisi-laravel', dan sesuaikan konfigurasi DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD
-2. migrasi database 
-php artisan migrate
-3. run seedeer
-php artisan dn:seed
-4. run symbolic link laravel
-php artisan storage:link
-5. lalu jalankan laravel
-php artisan serve
+2. migrasi database ===> php artisan migrate
+3. run seedeer ===> php artisan db:seed
+4. run symbolic link laravel ===> php artisan storage:link
+5. lalu jalankan laravel ===> php artisan serve
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
