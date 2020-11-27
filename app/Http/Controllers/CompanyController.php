@@ -80,8 +80,12 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $company = Company::findOrFail($id);
-        return view('company.edit', compact('company'));
+        try {
+            $company = Company::findOrFail($id);
+            return view('company.edit', compact('company'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -93,24 +97,28 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, $id)
     {
-        // update kasih try cactc
-
         // Form Validation
         $validator = $request->validated();
 
-        // Image Handle
-        $logoName = $request->nama . '-' . date('YmdHis') . '.' . $request->logo->extension();
-        $request->logo->storeAs('company', $logoName);
+        try {
+            $company = Company::findOrFail($id);
 
-        $company = Company::findOrFail($id);
-        $company->update([
-            'nama'      => $request->nama,
-            'email'     => $request->email,
-            'logo'      => $logoName,
-            'website'   => $request->website
-        ]);
+            // Save image
+            $logoName = $request->nama . '-' . date('YmdHis') . '.' . $request->logo->extension();
+            $request->logo->storeAs('company', $logoName);
 
-        return redirect()->route('company.index');
+            // Update database
+            $company->update([
+                'nama'      => $request->nama,
+                'email'     => $request->email,
+                'logo'      => $logoName,
+                'website'   => $request->website
+            ]);
+
+            return redirect()->route('company.index');
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
     }
 
     /**
@@ -121,10 +129,13 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        // delete kasih try cactc
-        $company = Company::findOrFail($id);
-        $company->delete();
+        try {
+            $company = Company::findOrFail($id);
+            $company->delete();
+            return redirect()->route('company.index');
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
 
-        return redirect()->route('company.index');
     }
 }
